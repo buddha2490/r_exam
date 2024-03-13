@@ -1,0 +1,213 @@
+---
+title: "Sample R Training Exam"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: false
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE, warning = FALSE}
+library(learnr)
+library(learnrhash)
+library(magrittr)
+tutorial_options(exercise.timelimit = 10,
+                 exercise.startover = FALSE)
+
+```
+
+
+# Sample R Training Exam
+
+I have set this exam to have a time limit of 10 minutes, but we can set it any way we want.  I included all the questions from the ADaM.yml file.  Currently there is no easy way to randomly sample these questions and include only a subset.  But, I don't think that's impossible either, I just need to think about how to do it. Total effort to create what you saw here was about an hour.  I also don't know yet how we will authenticate users this way, that's another thing to think about.
+
+## Grading
+
+At the very end there I've got a submit button that will generate a hash value of the responses for me to evaluate.  We should be able to set up some sort of automated system that would grade them on the back end.
+
+There is also the `gradethis` package to grade the responses.  It is usually used for displaying helpful messages after someone submits a code chunk.  But I think we could hack it a bit to grade some multiple choice questions and then capture that and save it to the server.
+
+
+
+
+## Code section
+
+This could be a code section where we could include some SAS code and ask users to do something about it with R:
+
+```bash
+PROC PHREG DATA = DAT;
+     CLASS VAR1 VAR2 VAR3;
+     MODEL TIME*STATUS(0) = VAR1 VAR2 VAR3;
+RUN;
+
+```
+
+
+```{r, phreg, echo = FALSE}
+quiz(caption = "Refer to the SAS code above:",
+     question("Which is the equivalent R function to `PROC PHREG`",
+              answer("`survival::coxph()`", correct = TRUE),
+              answer("`stats::glm()`"),
+              answer("`stats::lm()`"),
+              answer("`survival::survreg()`")))
+
+```
+
+
+## ADaM
+
+You can use the programming window below as a scratch space to answer the questions if any of them needed a coding window.  None of these questions do, but here's an example:
+
+```{r adam_box, exercise = TRUE}
+
+```
+
+```{r adam, echo = FALSE}
+quiz(caption = "These are the quiz questions from AdaM.yml",
+       question("Why is ADaM submitted as SAS Version 5 transport files?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+            answer("Because FDA standardized to this format in 1999.", correct = TRUE),
+            answer("Because SAS is the only format that is usable by review software"), 
+            answer("Because the ADaM team made this decision"),
+            answer("Because other formats could confuse the reviewers")),
+  
+  question("Which of the following is not part of the goals and mission of ADaM?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+          answer("Support SAS software tools", correct = TRUE),
+            answer("Support efficient generation, replication and review of analysis results", ),
+            answer("Transparency, Traceability, and clear communication"),
+            answer("Meet the needs of FDA Reviewers")),
+
+  question("How does ADaM help FDA reviewers (select the best response)?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+       answer("Analysis data from all companies can be in the same structure"), 
+       answer("Data can be combined across companies and by therapeutic areas"), 
+       answer("Supports the larger vision of an FDA data repository"),
+       answer("All of the above", correct = TRUE)),
+
+  question("Which of the following is not a fundamental principle of ADaM?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+     answer("Includes all raw data", correct = TRUE),
+       answer("Clear communication and traceability"),
+       answer("Support efficient generation, replication and review of analysis results"),
+       answer("Meet the needs of FDA Reviewers")),
+
+  question("ADaM datasets are designed for what primary purpose?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+          answer("Production of primary efficacy and safety analyses that are specified in the statistical analysis plan", correct = TRUE),
+       answer("Replication of all SDTM data with the addition of derived data"),
+       answer("Exploratory analysis"),
+       answer("Production of all statistical tables and listings")),
+
+  question("What is the first step to take when deciding on the name for a derived variable in ADaM?",
+                     allow_retry = FALSE,
+                     random_answer_order = FALSE,
+             answer("Study the ADaM implementation guide and determine if there is a variable name or fragment that is appropriate for the variable concept", correct = TRUE),
+             answer("Use a variable name that is an abbreviation for the variable concept"),
+             answer("Look for a variable name in the SDTM implementation guides that is a good fit for the variable concept"),
+             answer("None of the above")),
+
+  question("What is one of the two ways to achieve traceability?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+             answer("Informative metadata", correct = TRUE),
+             answer("Double programming"),
+             answer("A list of SDTM domains used for dataset creation"),
+             answer("A diagram")),
+
+  question("BDS differs from ADSL in that it allows which of the following?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+             answer("Multiple records per subject", correct = TRUE),
+             answer("No treatment variables"),
+             answer("One record per subject"),
+             answer("Subject level data")),
+
+  question("What is a possible reason for why the value of VISIT will differ from AVISIT for a given observation?",
+                     allow_retry = FALSE,
+                     random_answer_order = FALSE,
+  answer("AVISIT can be a completely derived concept."),
+  answer("AVISIT value may be based on windowing algorithm which results in a different visit window description than the nominal VISIT value."),
+             answer("The text of AVISIT may more clearly define the timing of the visit than the text of VISIT. For example, AVISIT=“Month 3” and VISIT=“Visit 3”. "),
+       answer("All of the above.", correct = TRUE)),
+
+  question("Which of the following is the ADaM variable used to represent the treatment a subject actually received?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+       answer("TRTxxA", correct = TRUE),
+       answer("TRTxxP"),
+       answer("APxxSDT"), 
+       answer("TRTSEQA"), 
+       answer("ACTARM")),
+  
+  question("Which is the variable used to indicate whether a subject is included in the Intent-to-treat population?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+       answer("ITTFL", correct = TRUE),
+       answer("INTENTFL"),
+       answer("POPINTFL"), 
+       answer("POPFLAG1")),
+
+  question("What data set name should be used for the subject level analysis dataset?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+     answer("ADSL", correct = TRUE),
+  answer("ADSUBJ"), 
+  answer("SUBJLEV"), 
+  answer("ADSL1")),
+
+  question("Which of the following variables are required to be included in ADSL and copied directly from SDTM DM?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+     answer("AGE, SEX, AGEU, ARM", correct = TRUE),
+     answer("DMDTC, AGE, RFSTDTC, ARM"), 
+     answer("USUBJID, SITEID, AGEU, AGEGROUP"), 
+     answer("ACTARM, ACTARMCD, ARM, ARMCD")),
+
+  question("Which of the following pairs of variables are BOTH required for a BDS dataset?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+            answer("PARAM and PARAMCD", correct = TRUE),
+            answer("PARAM and PARAMN"),
+            answer("PARCATy and PARAMCD"), 
+            answer("PARAMN and PARCATy")),
+
+  question("Which group of variables must always be present in a BDS dataset?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+     answer("PARAM, PARAMCD, AVAL and/or AVALC", correct = TRUE),
+       answer("PARAM, AVALCAT1, AVAL"), 
+            answer("AVAL, BASE, SUBJID"), 
+            answer("USUBJID, SAFFL, AVAL")),
+
+  question("PARAM must meet which of the following criteria?",
+                     allow_retry = FALSE,
+                     random_answer_order = TRUE,
+          answer("It must be a complete text description of the parameter.", correct = TRUE),
+       answer("It must be a short code value of the parameter."), 
+      answer("It must include information on covariates or other predictor variables."), 
+      answer("All of the above.")))
+
+
+```
+
+<hr>
+
+## Submission
+
+In the example below a url is given, this value can be replaced with whatever link you would like to use for submission. This link would be a Shiny form, or maybe we could parameterize this document.  I'll think about it some more.
+
+
+```{r context="server"}
+learnrhash::encoder_logic()
+
+```
+
+```{r encode, echo=FALSE}
+learnrhash::encoder_ui(ui_before = learnrhash::default_ui(url = "https://www.r-consortium.org"))
+```
